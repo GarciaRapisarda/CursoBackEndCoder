@@ -1,0 +1,35 @@
+[
+  {
+    "title": "Mesa de Luz",
+    "price": 120,
+    "thumbnail": "url de la foto del producto",
+    "id": 4
+  },
+  {
+    "title": "Cubre Cama",
+    "price": 50,
+    "thumbnail": "url de la foto del producto",
+    "id": 5
+  },
+  {
+    "title": "Almohada",
+    "price": 30,
+    "thumbnail": "url de la foto del producto",
+    "id": 6
+  },
+  {
+    "name": "name",
+    "lastName": "last name",
+    "id": 7
+  },
+  {
+    "name": "name",
+    "lastName": "last name",
+    "id": 8
+  },
+  {
+    "name": "name",
+    "lastName": "last name",
+    "id": 9
+  }
+]
