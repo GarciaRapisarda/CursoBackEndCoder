@@ -1,5 +1,3 @@
-const { response } = require("express");
-
 let formularioProducto = document.getElementById('formularioProducto');
 
 const handleSubmmit = (evt, form, route) => {
