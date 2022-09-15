@@ -1,0 +1,20 @@
+doctype html
+html(lang="es")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Home desde Pug
+    body
+        a(href="/productos") 
+            button Ver Productos
+        h2 Formulario Desde PUG 
+            form(action="/productos", method="POST")
+                label(for="nombre") Nombre
+                input(type="text", name="nombre", id="nombre")
+                label(for="precio") Precio
+                input(type="number", name="precio", id="precio")
+                label(for="imagen") Imagen
+                input(type="text", name="imagen", id="imagen")
+                button(type="submit") Cargar 
+        

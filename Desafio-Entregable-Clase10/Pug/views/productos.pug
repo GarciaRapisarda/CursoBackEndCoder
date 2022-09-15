@@ -1,0 +1,21 @@
+if productos 
+    h2 Listado de productos
+    table 
+        thead
+            tr
+                th Nombre
+                th Precio
+                th Imagen
+        tbody
+            each producto in productos
+                tr
+                    td= producto.nombre
+                    td= producto.precio
+                    td= producto.imagen
+    a(href="/") 
+        button Volver al Home    
+        
+else
+    h2 No hay productos cargados
+    a(href="/") 
+        button Volver al Home
