@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/content', express.static('./public'));
 
 app.use('/', router);
-
+let historial = [];
 let productos = [];
 io.on('connection', socket => {
     console.log(`Nuevo cliente conectado! ${socket.id}`);
@@ -26,6 +26,12 @@ io.on('connection', socket => {
     });
     socket.on('mensaje', (data) => {
         console.log(data);
-    });    
+        historial.push(data);
+        io.emit('historial', historial);
+        console.log(historial);
+    });
 });
+
+       
+
 

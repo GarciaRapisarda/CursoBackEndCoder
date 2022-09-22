@@ -49,12 +49,27 @@ Swal.fire({
         user = result.value;   
 });
 
-chatCenter.addEventListener('keyup', (evt) => {
-    if (evt.key === "Enter") {
-        socket.emit('mensaje', {user, mensaje: chatCenter.value});
-        console.log(chatCenter.value);
-    }
+btnChat.addEventListener('click', () => {
+    let mensaje = document.getElementById('mensaje').value;
+    let chat = {user, mensaje};
+    console.log(chat);
+    socket.emit('mensaje', chat);
+    document.getElementById('mensaje').value = '';
 });
+
+socket.on('historial', (historial) => {
+    let chat = '';
+    historial.forEach((element) => {
+        chat += `<div class="card">
+        <div class="card-body">
+            <h5 class="card-title">${element.user}</h5>
+            <p class="card-text">${element.mensaje}</p>
+        </div>
+    </div>`;
+    });
+    listaMensajes.innerHTML = chat;
+});
+
 
 
 
