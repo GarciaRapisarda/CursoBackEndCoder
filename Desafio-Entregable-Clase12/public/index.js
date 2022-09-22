@@ -37,3 +37,28 @@ socket.on('listaProductos', (productos) => {
     listaProductos.innerHTML = prod;
 });
 
+let user 
+let chatCenter = document.getElementById('chatCenter')
+Swal.fire({
+    title: 'Login Chat-Box',
+    input: 'text',
+    text: 'Ingresa tu e-mail',
+    allowOutsideClick: false,
+})
+.then((result) => {
+        user = result.value;   
+});
+
+chatCenter.addEventListener('keyup', (evt) => {
+    if (evt.key === "Enter") {
+        socket.emit('mensaje', {user, mensaje: chatCenter.value});
+        console.log(chatCenter.value);
+    }
+});
+
+
+
+    
+
+
+

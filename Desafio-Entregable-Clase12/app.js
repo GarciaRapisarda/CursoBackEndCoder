@@ -23,7 +23,9 @@ io.on('connection', socket => {
     socket.on('producto', (producto) => {
         productos.push(producto);
         io.emit('listaProductos', productos);
-    }
-    );
+    });
+    socket.on('mensaje', (data) => {
+        console.log(data);
+    });    
 });
 
