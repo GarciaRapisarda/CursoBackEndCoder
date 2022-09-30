@@ -7,14 +7,14 @@ const Handlebars = require('handlebars');
 
 let path_file = './productos.json';
 async function get_products (path_file) {
-    const container = new Contenedor(path_file);
-    const prods = await container.getAll();
+    const contenedor = new Contenedor(path_file);
+    const prods = await contenedor.getAll();
     return prods;
 }
 
 async function post_product (path_file, newProduct) {
-    const container = new Contenedor(path_file);
-    const prod = await container.save(newProduct);
+    const contenedor = new Contenedor(path_file);
+    const prod = await contenedor.save(newProduct);
     return prod;
 }
 

@@ -17,7 +17,7 @@
     <h3>Mensajes</h3>
     <ul id="messages"></ul>
 </fieldset>
-<script>  //const socket = io();
+<script> 
     socket.on('messageBack', (data) => {
         let innerText = '';
         data.map((message) => {

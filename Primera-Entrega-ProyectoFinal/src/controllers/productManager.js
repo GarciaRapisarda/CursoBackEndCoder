@@ -1,3 +1,4 @@
+const { timeStamp } = require('console');
 const fs = require('fs');
 
 const productsFilePath = './src/data/products.json';

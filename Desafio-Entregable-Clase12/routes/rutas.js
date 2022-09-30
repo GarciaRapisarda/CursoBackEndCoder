@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const Contenedor = require('../contenedor');
+const Contenedor = require('../controladores/contenedor');
 const contenedor = new Contenedor();
 
 /* router.get('/', (req, res) => {
@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
 );
 
 
-/* router.post('/', (req, res) => {
+router.post('/', (req, res) => {
     if (req.body.nombre && req.body.precio && req.body.imagen) {
         let resultado = contenedor.create(req.body);
         contenedor.saveProduct();
@@ -24,8 +24,5 @@ router.get('/', (req, res) => {
         res.send({error: 'No se pudo crear el producto'});
     }
 });
- */
+
 module.exports = router;
-
-
-

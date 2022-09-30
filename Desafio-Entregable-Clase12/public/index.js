@@ -1,8 +1,8 @@
 const socket = io();
 
-const form = document.getElementById('form');
+const formProd = document.getElementById('formProd');
 
-form.addEventListener('submit', (e) => {
+formProd.addEventListener('submit', (e) => {
     e.preventDefault();
     const nombre = document.getElementById('nombre').value;
     const precio = document.getElementById('precio').value;
@@ -10,7 +10,7 @@ form.addEventListener('submit', (e) => {
     const producto = {nombre, precio, imagen};
     socket.emit('producto', producto);
     console.log(producto);
-    form.reset();
+    formProd.reset();
 });
 
 socket.on('listaProductos', (productos) => {
@@ -62,8 +62,10 @@ socket.on('historial', (historial) => {
     historial.forEach((element) => {
         chat += `<div class="card">
         <div class="card-body">
+            <p class="card-text"><small class="text-muted">A las : ${new Date} </small></p>
             <h5 class="card-title">${element.user}</h5>
             <p class="card-text">${element.mensaje}</p>
+            
         </div>
     </div>`;
     });
@@ -74,6 +76,3 @@ socket.on('historial', (historial) => {
 
 
     
-
-
-

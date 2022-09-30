@@ -1,11 +1,22 @@
 [
 	{
 		"id": 1,
-		"timestamp": " ",
+		"timestamp": 324567890,
 		"nombre": "coca",
 		"descripcion": "botella 1.5ltrs",
-		"foto": "coca.jpg",
+		"codigo": "123456",
+		"foto": "https://statics.dinoonline.com.ar/imagenes/full_600x600_ma/3080006_f.jpg",
 		"precio": 150,
 		"stock": 50
+	},
+	{
+		"id": 2,
+		"nombre": "Coca",
+		"timestamp": 23456123,
+		"descripcion": "Botella 2.5ltr",
+		"codigo": 23456,
+		"foto": "https://jumboargentina.vtexassets.com/arquivos/ids/673039/Gaseosa-Coca-cola-Sabor-Original-500-Ml-1-3513.jpg?v=637709781999770000",
+		"precio": 123,
+		"stock": 40
 	}
 ]

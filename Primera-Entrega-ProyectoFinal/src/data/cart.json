@@ -1,36 +1,7 @@
 [
 	{
-		"id": 3,
-		"timestamp": 1664201083330,
-		"products": [
-			{
-				"id": 1,
-				"nombre": "Fanta",
-				"descripcion": "botella 750cc",
-				"foto": "fanta.jpg",
-				"precio": 367,
-				"stock": 60
-			}
-		]
-	},
-	{
-		"id": 4,
-		"timestamp": 1664201117199,
-		"products": []
-	},
-	{
-		"id": 5,
-		"timestamp": 1664201142417,
-		"products": []
-	},
-	{
-		"id": 6,
-		"timestamp": 1664201145248,
-		"products": []
-	},
-	{
-		"id": 7,
-		"timestamp": 1664201185424,
+		"id": 1,
+		"timestamp": 1664501575106,
 		"products": []
 	}
 ]

@@ -1,16 +1,20 @@
-let productos = require("./products.js");
+let productos = require("../products.js");
 const fs = require("fs");
 
 class Contenedor {
     create = (product) => {
-        let newProduct = {
-        nombre: product.nombre,
-        precio: product.precio,
-        imagen: product.imagen,
-        };
-        productos.push(newProduct);
-        return productos;
-    };
+        let id
+        if (productos.length === 0) id = 1
+        else id = productos[productos.length-1].id+1
+        product.price = parseInt(product.price)
+        product = {
+            id,
+            ...product
+        }
+        productos.push(product)
+        return productos
+    }
+
     saveProduct = () => {
         fs.writeFileSync(
         "./products.js",

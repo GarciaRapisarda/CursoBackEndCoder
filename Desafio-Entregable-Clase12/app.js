@@ -16,7 +16,7 @@ app.use('/content', express.static('./public'));
 
 app.use('/', router);
 let historial = [];
-let productos = [];
+let productos = require('./products.js');
 io.on('connection', socket => {
     console.log(`Nuevo cliente conectado! ${socket.id}`);
     socket.emit('listaProductos', productos);
@@ -33,5 +33,3 @@ io.on('connection', socket => {
 });
 
        
-
-

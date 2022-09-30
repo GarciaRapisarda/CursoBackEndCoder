@@ -12,7 +12,6 @@
     </table>
 </div>
 <script>
-    const socket = io();
     socket.on('messageBackProds', (data) => {
         let innerTextProd = '';
         data.map((message) => {
