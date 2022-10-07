@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/content', express.static('./public'));
 
 app.use('/', router);
-let historial = [];
+let historial = require('./chat.json');
 let productos = require('./products.js');
 io.on('connection', socket => {
     console.log(`Nuevo cliente conectado! ${socket.id}`);

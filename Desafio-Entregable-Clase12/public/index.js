@@ -9,6 +9,7 @@ formProd.addEventListener('submit', (e) => {
     const imagen = document.getElementById('imagen').value;
     const producto = {nombre, precio, imagen};
     socket.emit('producto', producto);
+    saveProduct(producto);
     console.log(producto);
     formProd.reset();
 });
@@ -52,6 +53,7 @@ Swal.fire({
 btnChat.addEventListener('click', () => {
     let mensaje = document.getElementById('mensaje').value;
     let chat = {user, mensaje};
+
     console.log(chat);
     socket.emit('mensaje', chat);
     document.getElementById('mensaje').value = '';
