@@ -1,7 +1,39 @@
 [
-	{
-		"id": 1,
-		"timestamp": 1664501575106,
-		"products": []
-	}
+  {
+    "id": 1,
+    "timestamp": 1664501575106,
+    "products": [
+      {
+        "id": 2,
+        "nombre": "Coca",
+        "timestamp": 23456123,
+        "descripcion": "Botella 2.5ltr",
+        "codigo": 23456,
+        "foto": "https://jumboargentina.vtexassets.com/arquivos/ids/673039/Gaseosa-Coca-cola-Sabor-Original-500-Ml-1-3513.jpg?v=637709781999770000",
+        "precio": 123,
+        "stock": 40
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "timestamp": 1665450117906,
+    "products": [
+      {
+        "id": 2,
+        "nombre": "Coca",
+        "timestamp": 23456123,
+        "descripcion": "Botella 2.5ltr",
+        "codigo": 23456,
+        "foto": "https://jumboargentina.vtexassets.com/arquivos/ids/673039/Gaseosa-Coca-cola-Sabor-Original-500-Ml-1-3513.jpg?v=637709781999770000",
+        "precio": 123,
+        "stock": 40
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "timestamp": 1665450183812,
+    "products": []
+  }
 ]

@@ -10,13 +10,23 @@
 		"stock": 50
 	},
 	{
-		"id": 2,
-		"nombre": "Coca",
+		"nombre": "Pepsi",
 		"timestamp": 23456123,
 		"descripcion": "Botella 2.5ltr",
 		"codigo": 23456,
-		"foto": "https://jumboargentina.vtexassets.com/arquivos/ids/673039/Gaseosa-Coca-cola-Sabor-Original-500-Ml-1-3513.jpg?v=637709781999770000",
-		"precio": 123,
-		"stock": 40
+		"foto": "https://carrefourar.vtexassets.com/arquivos/ids/220119/7790895000454_01.jpg?v=637704294043100000",
+		"precio": 180,
+		"stock": 10,
+		"id": 2
+	},
+	{
+		"nombre": "Fanta",
+		"timestamp": 23456123,
+		"descripcion": "Botella 2.5ltr",
+		"codigo": 23456,
+		"foto": "https://carrefourar.vtexassets.com/arquivos/ids/220119/7790895000454_01.jpg?v=637704294043100000",
+		"precio": 150,
+		"stock": 20,
+		"id": 3
 	}
 ]
