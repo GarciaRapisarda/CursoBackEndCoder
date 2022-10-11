@@ -5,8 +5,16 @@ const productRouter = require('./routes/productRouter')
 const chatRouter = require('./routes/chatRouter')
 let products = require('./models/productModel')
 
-const Manager = require('./controllers/chatManager')
-const manager = new Manager()
+
+
+
+const crearTablaMysql = require('./config/crearTablaMysql')
+const crearTablaSqlite3 = require('./config/crearTablaSqlite3')
+
+const tabla_productos = 'products'
+const tabla_chat = 'chat'
+
+const sqlite = require('./config/sqlite3.config')
 
 const app = express()
 const PORT = process.env.PORT || 8080
@@ -14,6 +22,23 @@ const server = app.listen(PORT, () => console.log(`Server up on port ${PORT}`))
 const io = new Server(server)
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
+
+try {
+    crearTablaMysql(tabla_productos)
+    console.log('tabla productos creada')
+} catch (err) {
+    console.log(err)
+}
+
+try {
+    crearTablaSqlite3(tabla_chat)
+    console.log('tabla mensajes creada')
+} catch (err) {
+    console.log(err)
+}
+
+const Manager = require('./controllers/chatManager')
+const manager = new Manager(sqlite, 'tabla_chat')
 
 app.use('/content', express.static('./src/public'))
 

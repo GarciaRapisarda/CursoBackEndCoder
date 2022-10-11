@@ -1,35 +1,32 @@
-const knex = require('knex')
+
 
 class ChatManager {
-    constructor(options, chat) {
-        const database = knex(options)
-        if (!database.schema.hasTable(chat)) {
-            database.schema.createTable(chat, table => {
-                table.increments('id')
-                table.string('email', 20).notNullable()
-                table.string('message', 200)
-            })
-                .then(() => console.log('table created'))
-                .catch(err => console.log(err))
-    }
+    constructor(database, table) {   
     this.database = database
-    this.table = chat
+    this.table = table
 }
 
-    create = (message) => {
-        return this.database(this.table).insert(message)
-        .then(() => {
-            console.log('message created')
-            this.findAll()
-        })
-        .catch(err => console.log(err))
+    async create(message) {
+        try {
+            message = {
+                email: message.email,
+                message: message.message,
+                timestamp: new Date().toLocaleString()
+            }
+            await this.database(this.table).insert(message)
+        }
+        catch (err) {
+            console.log(err)
+        }
     }
 
-    findAll = () => {
-        return this.database(this.table).select('*')
-        .then(response => JSON.parse(JSON.stringify(response)))
-        .catch(err => console.log(err))
+    async findAll(){
+        let chat= result=JSON.parse(JSON.stringify(
+        await this.database(this.table).where({}).select("email","msg","date")))
+        ||[];
+        return chat; 
     }
+     
 }
 
 

@@ -1,20 +1,9 @@
 const knex = require('knex')
 
 class ProductManager {
-    constructor(options, products) {
-        const database = knex(options)
-        if (!database.schema.hasTable(products)) {
-            database.schema.createTable(products, table => {
-                table.increments('id')
-                table.string('title', 20).notNullable()
-                table.integer('price')
-                table.string('thumbnail', 200)
-            })
-                .then(() => console.log('table created'))
-                .catch(err => console.log(err))
-    }
+    constructor(database, table) {
     this.database = database
-    this.table = products
+    this.table = table
 }
 
     create = (product) => {

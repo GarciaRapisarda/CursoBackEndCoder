@@ -1,4 +1,4 @@
-const options = {
+const mysqlOptions = require("knex")({
     client: 'mysql',
     connection: {
         host: '127.0.0.1',
@@ -7,6 +7,6 @@ const options = {
         database: 'ecommerce',
         table: 'products'
     }
-}
+})
 
-module.exports = options
+module.exports = mysqlOptions
