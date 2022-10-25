@@ -1,12 +1,40 @@
-const db = require('../config/configFireStore');
-const client = db.collection('carritos');
+const { runDataBase } = require('../config/configFireStore');
+const client = runDataBase();
 
-module.exports = {
-    getCarritos: async () => {
-        const snapshot = await client.get();
-        snapshot.forEach (doc => {
-            console.log(doc.id, '=>', doc.data());
+class CarritosFsManager {
+    constructor() {
+        this.carritos = client;
+    }
+
+    async getCarritos() {
+        const snapshot = await this.carritos.get();
+        const carritos = [];
+        snapshot.forEach(doc => {
+            carritos.push({id: doc.id, ...doc.data()});
         });
-    },
-    
+        return carritos;
+    }
+
+    async getCarrito(id) {
+        const snapshot = await this.carritos.doc(id).get();
+        const carrito = {id: snapshot.id, ...snapshot.data()};
+        return carrito;
+    }
+
+    async addCarrito(carrito) {
+        const result = await this.carritos.add(carrito);
+        return result;
+    }
+
+    async updateCarrito(id, carrito) {
+        const result = await this.carritos.doc(id).update(carrito);
+        return result;
+    }
+
+    async deleteCarrito(id) {
+        const result = await this.carritos.doc(id).delete();
+        return result;
+    }
 }
+
+module.exports = CarritosFsManager;

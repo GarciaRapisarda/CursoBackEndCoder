@@ -1,14 +1,69 @@
-const { Router } = require('express');
-const carritosFsManager = require('../controllers/carritosFsManager');
+const express = require('express');
+const Manager = require('../controllers/carritosFsManager');
+const router = express.Router();
+const manager = new Manager();
 
-const routes = Router();
-
-router.get('/carritos', (req, res) => {
-    carritosFsManager.getCarritos()
-        .then((carritosList) => {
-            return res.status(200).json(carritosList);
+router.get('/', (req, res) => {
+    manager.getCarritos()
+        .then((data) => {
+            res.send(data);
         })
         .catch((err) => {
-            return res.status(500).json({ error: err });
+            res.status(404).send(err);
         });
 });
+
+router.get('/:id', (req, res) => {
+    if (isNaN(req.params.id)) {
+        res.status(400).send({ error: 'El id debe ser un número' });
+    } else {
+        manager.getCarrito(req.params.id)
+            .then((data) => {
+                res.send(data);
+            })
+            .catch((err) => {
+                res.status(404).send(err);
+            });
+    }
+}); 
+
+router.post('/', (req, res) => {
+    manager.addCarrito(req.body)
+        .then((data) => {
+            res.send(data);
+        })
+        .catch((err) => {
+            res.status(404).send(err);
+        });
+});
+
+router.put('/:id', (req, res) => {
+    if (isNaN(req.params.id)) {
+        res.status(400).send({ error: 'El id debe ser un número' });
+    } else {
+        manager.updateCarrito(req.params.id, req.body)
+            .then((data) => {
+                res.send(data);
+            })
+            .catch((err) => {
+                res.status(404).send(err);
+            });
+    }
+});
+
+router.delete('/:id', (req, res) => {
+    if (isNaN(req.params.id)) {
+        res.status(400).send({ error: 'El id debe ser un número' });
+    } else {
+        manager.deleteCarrito(req.params.id)
+            .then((data) => {
+                res.send(data);
+            })
+            .catch((err) => {
+                res.status(404).send(err);
+            });
+    }
+});
+
+
+module.exports = router;

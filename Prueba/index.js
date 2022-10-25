@@ -1,27 +1,23 @@
-const { MongoClient } = require('mongodb');
+var admin = require("firebase-admin");
 
-const host = 'localhost';
-const port = 27017;
-const dbName = 'ecommerce';
+var serviceAccount = require("./serviceAccountKey.json");
 
-const uri = `mongodb://${host}:${port}`;
-const client = new MongoClient(uri, { useUnifiedTopology: true, useNewUrlParser: true });
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
 
-client.connect()
-    .then(() => {
-        console.log('Conectado a la base de datos');
-        const db = client.db(dbName);
-        const productCollection = db.collection('productos');
-        const search = productCollection.find();
-        search.toArray()
-            .then((data) => {
-                console.log(data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    })
-    .catch((err) => {
-        console.log(err);
-    }
-);
+console.log('Conectado a la base de datos');
+
+const db = admin.firestore();
+const client = db.collection('carritos');
+
+const getCarritos = async () => {
+    const snapshot = await client.get();
+    snapshot.forEach(doc => {
+        console.log(({id: doc.id, ...doc.data()}));
+    });
+}
+
+getCarritos()
+
+
