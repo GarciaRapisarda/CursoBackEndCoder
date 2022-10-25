@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const mongoDbManager = require('../controllers/mongoDbManager');
+const mongoDbManager = require('../controllers/productMongoDbManager');
 
 
 const routes = Router();
