@@ -2,16 +2,17 @@ import express from 'express';
 import session from 'express-session';
 import mongoose from 'mongoose';
 import MongoStore from 'connect-mongo';
-import { initializePassport } from './passport.config.js';
+import { initializePassport } from './src/config/passport.config.js';
 import passport from 'passport';
 import dotenv from 'dotenv';
-import yargs from 'yargs';
+import {router} from './src/routes/router.js';
 
 
 dotenv.config();
 
 const app = express();
 const port = process.argv[2] || process.env.PORT;
+
 
 const server = app.listen(port, () => {
     console.log(`Servidor escuchando en el puerto ${server.address().port}`);
@@ -37,6 +38,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static('public'));
 
+app.use('/api/random', router);
 
 app.post('/register', passport.authenticate('register', { failureRedirect: '/failureRegister'}), (req, res) => {
     res.send({message: 'Signed up'})
@@ -66,4 +68,3 @@ app.get('/info', (req, res) => {
                 }
             })
 })
-

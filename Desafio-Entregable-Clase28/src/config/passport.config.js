@@ -1,6 +1,6 @@
 import passport from "passport";
 import local from "passport-local";
-import { users } from "./models/user.js";
+import { users } from "../../models/User.js";
 import { encryptPassword, comparePassword } from "./utils.js";
 
 
