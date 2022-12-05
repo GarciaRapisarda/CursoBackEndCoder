@@ -6,6 +6,8 @@ import { initializePassport } from './src/config/passport.config.js';
 import passport from 'passport';
 import dotenv from 'dotenv';
 import {router} from './src/routes/router.js';
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 
 
 dotenv.config();
@@ -13,10 +15,26 @@ dotenv.config();
 const app = express();
 const port = process.argv[2] || process.env.PORT;
 
+yargs(hideBin(process.argv))
+    .command({
+        command: 'server',
+        describe: 'Inicia el servidor',
+        builder: {
+            port: {
+                describe: 'Puerto del servidor',
+                demandOption: true,
+                type: 'number'
+            }
+        },
+        handler(argv) {
+            const server = app.listen(argv.port, () => {
+                console.log(`Servidor escuchando en el puerto ${server.address().port}`);
+            });
+        }
+    })
+    .parse()
 
-const server = app.listen(port, () => {
-    console.log(`Servidor escuchando en el puerto ${server.address().port}`);
-});
+
 
 const connection = mongoose.connect(process.env.MONGO_USERS , {
     useNewUrlParser: true,
