@@ -19,6 +19,8 @@ dotenv.config();
 const app = express();
 const port = process.argv[2] || process.env.PORT;
 const mode = process.argv[3] || process.env.MODE;
+
+//YARGS
 yargs(hideBin(process.argv))
     .command({
         command: 'server',
@@ -67,7 +69,7 @@ if (cluster.isPrimary) {
 
 
 
-
+//conexion a la base de datos
 
 const connection = mongoose.connect(process.env.MONGO_USERS , {
     useNewUrlParser: true,
