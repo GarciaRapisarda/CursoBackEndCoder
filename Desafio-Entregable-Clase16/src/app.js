@@ -4,17 +4,13 @@ const handlebars = require('express-handlebars')
 const productRouter = require('./routes/productRouter')
 const chatRouter = require('./routes/chatRouter')
 let products = require('./models/productModel')
-
-
-
-
 const crearTablaMysql = require('./config/crearTablaMysql')
 const crearTablaSqlite3 = require('./config/crearTablaSqlite3')
 
 const tabla_productos = 'products'
 const tabla_chat = 'chat'
 
-const sqlite = require('./config/sqlite3.config')
+const sqlite = require('./config/sqlite.config')
 
 const app = express()
 const PORT = process.env.PORT || 8080
@@ -23,22 +19,32 @@ const io = new Server(server)
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
-try {
+// Creación tabla Mysql
+try{
     crearTablaMysql(tabla_productos)
     console.log('tabla productos creada')
-} catch (err) {
+}catch(err){
     console.log(err)
 }
 
-try {
+
+
+
+// Creación tabla Sqlite3
+
+try{
     crearTablaSqlite3(tabla_chat)
-    console.log('tabla mensajes creada')
-} catch (err) {
+    console.log('tabla chat creada')
+}catch(err){
     console.log(err)
 }
 
 const Manager = require('./controllers/chatManager')
-const manager = new Manager(sqlite, 'tabla_chat')
+const manager = new Manager(sqlite,'tabla_chat')
+
+
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
 
 app.use('/content', express.static('./src/public'))
 
@@ -49,7 +55,7 @@ app.set('view engine', 'handlebars')
 app.get('/', (req, res) => {
     res.render('create-product')
 })
-
+//Rutas
 app.use('/products', productRouter)
 app.use('/chat', chatRouter)
 

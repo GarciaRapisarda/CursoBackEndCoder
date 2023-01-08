@@ -1,25 +1,22 @@
-const liteDB = require('./sqlite3.config');
+const liteDB = require('./sqlite.config');
 
-const crearTablaSqlite3= async(tabla)=>{
-    const table= tabla;
+const crearTablaSqlite3= async( liteTable)=>{
     try{
-        if(!liteDB.schema.hasTable(table)){
-            await liteDB.schema.createTable(table, table=>{
-                table.increments('id');
-                table.string('email', 20).notNullable();
-                table.string('msg', 200).notNullable();
-                table.time('date', 20).notNullable();
-            })
-            console.log('table created')
-        }
-        return {status:200, msg:'table created'}
-    }catch(err){
-        console.log(err)
-        return {status:500, msg:'error'}
+    if(!await liteDB.schema.hasTable(liteTable)){
+        await liteDB.schema.createTable(liteTable, table => {
+            table.increments('id')
+            table.string('email')
+            table.string('msg')
+            table.time('date')
+        })
+        message += `Table ${liteTable} created`
     }
-    finally{
-        liteDB.destroy()
-    }
+    return {status: 'success', result: message}
+}catch (err){
+    throw {status : 'Error', result : {msg : err.message, code : err.code}}
+}finally{
+    //destroy tables connection
+    liteDB.destroy()}
 }
 
 module.exports = crearTablaSqlite3;

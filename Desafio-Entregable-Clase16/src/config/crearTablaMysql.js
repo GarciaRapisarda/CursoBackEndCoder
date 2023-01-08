@@ -1,22 +1,26 @@
-const database = require('./mysql.config')
+const myDB = require('./mysql.config')
 
-const crearTablaMysql = async (tabla) => {
-    const table = tabla
-    try {
-        await database.schema.createTable(table, table => {
-            table.increments('id')
-            table.string('title', 20).notNullable()
-            table.integer('price')
-            table.string('thumbnail', 200)
-            
-        })
-        console.log('table created')
-    } catch (err) {
-        console.log(err)
+const crearTablaMysql = async (myTable)=>{
+    try{
+        let message = ''
+        if(!await myDB.schema.hasTable(myTable)){
+            await myDB.schema.createTable(myTable, table => {
+                table.increments('id')
+                table.string('title').nullable(false)
+                table.float('price').nullable(false)
+                table.string('thumbnail').nullable(false)
+            })
+            message = `Table ${myTable} created - `
+        }
+
+        return {status: 'success', result: message}
+    }catch (err){
+        throw {status : 'Error', result : {msg : err.message, code : err.code}}
+    }finally{
+        //destroy tables connection
+        myDB.destroy()
     }
-    finally {
-        database.destroy()
-    }   
-}
+} 
+
 
 module.exports = crearTablaMysql

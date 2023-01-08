@@ -1,3 +1,10 @@
-let products = []
+const mysql = require('../config/mysql.config');
 
-module.exports = products
+const N_TABLE="products"
+const Manager= require('../controllers/productManager')
+const manager = new Manager(mysql,N_TABLE);
+let productsList = manager.findAll()
+.then(products => products)
+.catch(err => console.log(err))
+
+module.exports = productsList;

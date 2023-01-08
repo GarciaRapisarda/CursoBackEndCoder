@@ -1,4 +1,9 @@
 {
+  "name": "desafio-16",
+  "version": "1.0.0",
+  "description": "chat y product list con db para guardar archivos",
+  "main": "index.js",
+  "type": "commonjs",
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js"

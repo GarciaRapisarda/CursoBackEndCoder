@@ -1,49 +1,60 @@
 const knex = require('knex')
 
 class ProductManager {
-    constructor(database, table) {
-    this.database = database
-    this.table = table
-}
+    constructor(bd,table) {
 
-    create = (product) => {
-        return this.database(this.table).insert(product)
-        .then(() => {
-            console.log('product created')
-            this.findAll()
-        })
-        .catch(err => console.log(err))
-    }
-
-    findAll = () => {
-        return this.database(this.table).select('*')
-        .then(response => JSON.parse(JSON.stringify(response)))
-        .catch(err => console.log(err))
-    }
-
-    findById = (id) => {
-        return this.database(this.table).select('*').where('id', id)
-        .then(response => JSON.parse(JSON.stringify(response)))
-        .catch(err => console.log(err))
+        this.db=bd;
+        this.table=table;
     }
 
 
-    update = (id, product) => {
-        return this.database(this.table).where('id', id).update(product)
-        .then(() => {
-            console.log('product updated')
-            this.findAll()
-        })
-        .catch(err => console.log(err))
+
+    async create(product){
+        
+        
+        product={
+            title: product.title,
+            price: product.price,
+            thumbnail: product.thumbnail
+        }
+        
+        await this.db(this.table).insert(product)
+        
     }
 
-    delete = (id) => {
-        return this.database(this.table).where('id', id).del()
-        .then(() => {
-            console.log('product deleted')
-            this.findAll()
-        })
-        .catch(err => console.log(err))
+    async findAll(){
+    
+        let result=JSON.parse(JSON.stringify(
+            await this.db(this.table)
+            .where({})
+            .select("id","title","price","thumbnail")))
+        
+        return result; 
+    }
+
+    async findById(params){
+        id = parseInt(params)
+        // return products.find(item => item.id === id)
+        let result=JSON.parse(JSON.stringify(
+            await this.db(this.table)
+            .where('id',id)
+            .select("id","title","price","thumbnail")))
+            
+        return result;
+    }
+
+    async update(params, product){
+        id = parseInt(params)
+        await this.db(this.table)
+        .where('id',id)
+        .update(product)
+        return await this.findById(id)
+    }
+
+    async delete(params){
+        id = parseInt(params)
+        await this.db(this.table).where('id',id).del()
+        
     }
 }
 

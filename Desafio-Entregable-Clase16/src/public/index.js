@@ -29,11 +29,11 @@ socket.on('history', data => {
         let html = `
         <table class="table">
         <thead>
-          <tr>
+        <tr>
             <th scope="col">Product name</th>
             <th scope="col">Price</th>
             <th scope="col">Thumbnail</th>
-          </tr>
+        </tr>
         </thead>
         <tbody class="table-group-divider">
         `

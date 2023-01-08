@@ -1,37 +1,59 @@
 const express = require('express')
 const router = express.Router()
-const options = require('../config/mysql.config')
+const mysql = require('../config/mysql.config')
 
 const Manager = require('../controllers/productManager')
-const manager = new Manager(options, 'products')
+const manager = new Manager(mysql,"products")
 
-router.get('/', (req, res) => {
-    let result = manager.findAll()
+router.get('/', async(req, res) => {
+    try{
+    let result = await manager.findAll()
     res.send(result)
+    }catch{(err=>console.log(err))}
+    finally{(()=>mysql.destroy())}
 })
 
-router.get('/:id', (req, res) => {
-    let result = manager.findById(req.params.id)
+router.get('/:id', async(req, res) => {
+    try{
+    let result = await manager.findById(req.params.id)
     if (!result) return res.send({error: 'product was not found'})
     res.send(result)
+    }catch{(err=>console.log(err))}
+    finally{(()=>mysql.destroy())}
+
 })
 
-router.post('/', (req, res) => {
+router.post('/', async(req, res) => {
+    try{
+
     if (!req.body.title || !req.body.price || !req.body.thumbnail) return res.send({error: 'data is required'})
-    let result = manager.create(req.body)
+    const product = ({title, price, thumbnail}=req.body);
+    let result = await manager.create(product)
     res.send(result)
+    }catch{(err=>console.log(err))}
+    finally{(()=>mysql.destroy())}
+
 })
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async(req, res) => {
+    try{
     if (!req.body.title || !req.body.price || !req.body.thumbnail) return res.send({error: 'data is required'})
-    let result = manager.update(req.params.id, req.body)
+    
+    const product = ({title, price, thumbnail}=req.body)
+    let result = await manager.update(req.params.id, product)
     if (!result) return res.send({error: 'product was not found'})
     res.send(result)
+}catch{(err=>console.log(err))}
+finally{(()=>mysql.destroy())}
 })
 
-router.delete('/:id', (req, res) => {
-    let result = manager.delete(req.params.id)
+router.delete('/:id', async(req, res) => {
+    try{
+    let result = await manager.delete(req.params.id)
     res.send(result)
+}catch{(err=>console.log(err))}
+finally{(()=>mysql.destroy())}
+
 })
 
 module.exports = router
