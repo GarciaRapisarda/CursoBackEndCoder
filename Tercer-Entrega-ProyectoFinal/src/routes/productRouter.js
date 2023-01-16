@@ -1,16 +1,14 @@
-const {Router} = require('express');
-const mongoDbManager = require('../controllers/productMongoDbManager');
+const express = require('express');
+const router = express.Router();
+const Manager = require('../controllers/productMongoDbManager');
+const manager = new Manager();
 
-const routes = Router();
 
-routes.get('/products', (req, res) => {
-    mongoDbManager.getProducts()
-        .then((productList) => {
-            return res.status(200).json(productList);
-        })
-        .catch((err) => {
-            return res.status(500).json({error: err});
-        });
+router.get('/products', (req, res) => {
+    res.render('products', { products: manager.getProducts() });
 });
 
-module.exports = routes;
+
+
+
+module.exports = router;

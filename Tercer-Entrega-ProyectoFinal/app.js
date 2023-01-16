@@ -14,6 +14,8 @@ const core = require('os')
 const UserModel = require('./src/models/user');
 const routes = require('./src/routes/productRouter')
 const cartRouterMongo = require('./src/routes/cartRouter')
+const transporter = require('./src/config/nodeMailer')
+const client = require('./src/config/twilio')
 const app = express();
 const PORT = parseInt(process.argv.slice(2)) || 8080
 
@@ -71,13 +73,15 @@ const estaDeslogueado = (req, res, next) => {
   res.redirect('/')
 }
 
+
 app.get('/', estaLogueado, (req, res) => { 
   console.log(req.user);
   const response = req.user;    
   res.render('dashboard', response); 
 })
 
-app.get('/register', estaDeslogueado, (req, res) => {  
+app.get('/register', estaDeslogueado, (req, res) => {
+
   const response = {
     error: req.query.error,
     msg: req.query.msg
@@ -92,11 +96,35 @@ app.get('/login', estaDeslogueado, (req, res) => {
   res.render('login', response);
 })
 
+//Registro y Mail de Registro al administrador
 app.post('/register', async (req, res) => { 
   const {username, email, password, nombre, telefono, direccion, edad, avatar} = req.body;
   try {
     let user = await UserModel.findOne({ username })
     if(user) res.redirect('/register?error=true&msg=Username ya registrado')
+    const mailToAdmin = { 
+      from: process.env.TEST_EMAIL,
+      to: process.env.TEST_RECEIVER,
+      subject: 'Nuevo usuario registrado',
+      html: `<h1>Se ha registrado un nuevo usuario</h1>
+      <tr>
+      <td>Nombre: ${nombre}</td>
+      <td>Username: ${username}</td>
+      <td>Email: ${email}</td>
+      <td>Telefono: ${telefono}</td>
+      <td>Direccion: ${direccion}</td>
+      <td>Edad: ${edad}</td>
+      <td>Avatar: ${avatar}</td>
+      </tr>`
+    }
+    transporter.sendMail(mailToAdmin, (err, info) => {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log(info)
+      }
+    })
+  
     const hashPassword = await bcrypt.hash(password, 12);
     user = await UserModel.create({
       username,
@@ -117,7 +145,21 @@ app.post('/register', async (req, res) => {
 app.post('/login', passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/login?error=true'
-}))
+}
+))
+
+app.get('/test', (req, res) => {
+  const msgPruebaSMS = {
+    to: process.env.TEST_PHONE_NUMBER,
+    from: process.env.TWILIO_PHONE_NUMBER,
+    body: 'Hola, estoy probando el envio de SMS'
+    }
+    client.messages.create(msgPruebaSMS)
+    .then(message => console.log(message.sid))
+    .catch(err => console.log(err))
+    res.send('Mensaje enviado')
+})
+
 
 app.get('/logout', function (req, res, next) {
 	req.logout(function(err) {
