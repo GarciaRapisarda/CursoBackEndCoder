@@ -7,32 +7,48 @@ class CartManager {
     }
 
     async getCarritos() {
-        const snapshot = await this.carritos.get();
-        const carritos = [];
-        snapshot.forEach(doc => {
-            carritos.push({id: doc.id, ...doc.data()});
-        });
-        return carritos;
+        await client.connect();
+        const db = client.db('ecommerce');
+        const carritoCollection = db.collection('carritos');
+        const search = carritoCollection.find({});
+        const carritoList = await search.toArray();
+        return carritoList;
     }
 
     async getCarrito(id) {
-        const snapshot = await this.carritos.doc(id).get();
-        const carrito = {id: snapshot.id, ...snapshot.data()};
+        await client.connect();
+        const db = client.db('ecommerce');
+        const carritoCollection = db.collection('carritos');
+        const search = carritoCollection
+            .find({id});
+        const carrito = await search.toArray();
         return carrito;
     }
 
     async addCarrito(carrito) {
-        const result = await this.carritos.add(carrito);
+        await client.connect();
+        const db = client.db('ecommerce');
+        const carritoCollection = db.collection('carritos');
+        const result = await carritoCollection.insertOne(carrito);
         return result;
     }
 
+        
+
     async updateCarrito(id, carrito) {
-        const result = await this.carritos.doc(id).update(carrito);
+        await client.connect();
+        const db = client.db('ecommerce');
+        const carritoCollection = db.collection('carritos');
+        const result = await carritoCollection.updateOne
+            ({id}, {$set: carrito});
         return result;
     }
 
     async deleteCarrito(id) {
-        const result = await this.carritos.doc(id).delete();
+        await client.connect();
+        const db = client.db('ecommerce');
+        const carritoCollection = db.collection('carritos');
+        const result = await carritoCollection.deleteOne({id});
         return result;
     }
 }

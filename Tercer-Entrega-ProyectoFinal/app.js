@@ -14,6 +14,7 @@ const core = require('os')
 const UserModel = require('./src/models/user');
 const routes = require('./src/routes/productRouter')
 const cartRouterMongo = require('./src/routes/cartRouter')
+const productRouterMongo = require('./src/routes/productRouter')
 const transporter = require('./src/config/nodeMailer')
 const client = require('./src/config/twilio')
 const app = express();
@@ -52,6 +53,8 @@ app.use('/', express.static('public'))
 app.use(routes)
 
 app.use('/cart', cartRouterMongo)
+
+app.use('/products', productRouterMongo)
 
 
 if (cluster.isPrimary) {

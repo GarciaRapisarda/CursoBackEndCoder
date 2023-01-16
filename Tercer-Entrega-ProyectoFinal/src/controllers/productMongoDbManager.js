@@ -15,6 +15,31 @@ class ProductManager {
         
         return productList;
     }
+
+    async getProduct(id) {
+        await client.connect();
+        const db = client.db('ecommerce');
+        const productCollection = db.collection('productos');
+        const search = productCollection
+            .find({id});
+        const product = await search.toArray();
+        return product;
+    }
+
+    async addProduct(product) {
+        await client.connect();
+        const db = client.db('ecommerce');
+        const productCollection = db.collection('productos');
+        const result = await productCollection.insertOne(product);
+        return result;
+    }
+    async deleteProduct(id) {
+        await client.connect();
+        const db = client.db('ecommerce');
+        const productCollection = db.collection('productos');
+        const result = await productCollection.deleteOne({id});
+        return result;
+    }
 }
 
         
