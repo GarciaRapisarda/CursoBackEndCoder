@@ -1,0 +1,1 @@
+let imagen = "http://foto.jpg"

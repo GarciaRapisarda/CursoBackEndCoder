@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Manager = require('../controllers/productMongoDbManager');
+const ProductModel = require('../models/ProductModel');
 const manager = new Manager();
 
 
@@ -13,8 +14,13 @@ router.get('/products', (req, res) => {
         })
         .catch((err) => {
             return res.status(500).json({ error: err });
-        });
+        }
+        );
 });
+        /* .catch((err) => {
+            return res.status(500).json({ error: err });
+        });
+}); */
 
 router.get('/products/:id', (req, res) => {
     const { id } = req.params;

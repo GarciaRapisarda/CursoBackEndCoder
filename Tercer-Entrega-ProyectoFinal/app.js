@@ -17,6 +17,7 @@ const cartRouterMongo = require('./src/routes/cartRouter')
 const productRouterMongo = require('./src/routes/productRouter')
 const transporter = require('./src/config/nodeMailer')
 const client = require('./src/config/twilio')
+const fs = require('fs')
 const app = express();
 const PORT = parseInt(process.argv.slice(2)) || 8080
 
@@ -101,10 +102,11 @@ app.get('/login', estaDeslogueado, (req, res) => {
 
 //Registro y Mail de Registro al administrador
 app.post('/register', async (req, res) => { 
-  const {username, email, password, nombre, telefono, direccion, edad, avatar} = req.body;
+  const {username, email, password, nombre, telefono, direccion, edad, avatar} = req.body; 
   try {
     let user = await UserModel.findOne({ username })
     if(user) res.redirect('/register?error=true&msg=Username ya registrado')
+    /* fs.writeFileSync("./public/imagen.js", `let imagen = ${JSON.stringify(avatar)}`) */
     const mailToAdmin = { 
       from: process.env.TEST_EMAIL,
       to: process.env.TEST_RECEIVER,
@@ -145,11 +147,22 @@ app.post('/register', async (req, res) => {
   }
 })
 
-app.post('/login', passport.authenticate('local', {
+/* app.post('/login', passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/login?error=true'
 }
-))
+)) */
+
+app.post('/login', (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) { return next(err); }
+    if (!user) { return res.redirect('/login?error=true'); }
+    req.logIn(user, function(err) {
+      if (err) { return next(err); }
+      return res.redirect('/').json({user: user});
+    });
+  })(req, res, next);
+});
 
 app.get('/test', (req, res) => {
   const msgPruebaSMS = {
