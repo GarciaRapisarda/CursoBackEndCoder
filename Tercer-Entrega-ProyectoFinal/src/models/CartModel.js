@@ -1,16 +1,29 @@
 const mongoose = require('mongoose');
-
 const Schema = mongoose.Schema;
-const ObjectId = Schema.ObjectId;
 
 
 const cartSchema = new Schema({
-    id: ObjectId,
-    id: String,
-    productos: Array,
-    timestamp: Date.now()
+    user: {
+        id: String,
+        email: String,
+        nombre: String,
+        direccion: String,
+        telefono: Number,
+        edad: Number,
+        avatar: String
+    },
+    items: [{
+        item_id: String,
+        quantity: {Number, min: 1},
+        price: Number,
+        nombre: String,
+        foto: String,
+        stock: Number 
+    }],
+    subTotal: {Number, default: 0},
+    date: {type: Date, default: Date.now}
 });
 
-const CartModel = mongoose.model('Carritos', cartSchema);
 
-module.exports = CartModel;
+
+module.exports = mongoose.model('Carritos', cartSchema);

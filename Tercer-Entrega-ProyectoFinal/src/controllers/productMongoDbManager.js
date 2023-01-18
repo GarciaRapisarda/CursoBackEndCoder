@@ -1,46 +1,56 @@
-const { runDB } = require('../config/configMongoDb');
-const client = runDB();
+/* const { runDB } = require('../config/configMongoDb');
+const client = runDB(); */
 
-class ProductManager {
-    constructor() {
-        this.products = client;
+const ProductModel = require('../models/ProductModel');
+
+class ProductController {
+
+    async getProducts() {
+        try {
+            let products = await ProductModel.find();
+            return products;
+        } catch (error) {
+            console.log(error);
+        }
     }
-
-   async getProducts() {
-        await client.connect();
-        const db = client.db('ecommerce');
-        const productCollection = db.collection('productos');
-        const search = productCollection.find({});
-        const productList = await search.toArray();
-        
-        return productList;
-    }
-
     async getProduct(id) {
-        await client.connect();
-        const db = client.db('ecommerce');
-        const productCollection = db.collection('productos');
-        const search = productCollection
-            .find({id});
-        const product = await search.toArray();
-        return product;
+        try {
+            let product = await ProductModel.findById(id);
+            if (product.length === 0) {
+                return null;
+            }
+            return product;
+}
+        catch (error) {
+            console.log(error);
+        }
     }
-
-    async addProduct(product) {
-        await client.connect();
-        const db = client.db('ecommerce');
-        const productCollection = db.collection('productos');
-        const result = await productCollection.insertOne(product);
-        return result;
+    async createProduct(product) {
+        try {
+            let resultado = await ProductModel.create(product);
+            return resultado;
+        } catch (error) {
+            console.log(error);
+        }
     }
     async deleteProduct(id) {
-        await client.connect();
-        const db = client.db('ecommerce');
-        const productCollection = db.collection('productos');
-        const result = await productCollection.deleteOne({id});
-        return result;
+        try {
+            let resultado = await ProductModel.findByIdAndDelete(id);
+            return resultado;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    async updateProduct(id, product) {
+        try {
+            let resultado = await ProductModel.findByIdAndUpdate
+                (id, product, { new: true });
+            return resultado;
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 
-        
-module.exports = ProductManager;
+module.exports = new ProductController();
+

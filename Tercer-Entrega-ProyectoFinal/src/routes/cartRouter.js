@@ -1,72 +1,66 @@
 const express = require('express');
 const Manager = require('../controllers/cartManager');
+const user = require('../models/user');
 const router = express.Router();
-const manager = new Manager();
 
-router.get('/', (req, res) => {
-    manager.getCarritos()
-        .then((data) => {
-            res.send(data);
-        })
-        .catch((err) => {
+
+router.get('/', async (req, res) => {
+    try {
+        const data = await Manager.getCart(user)
+        res.send(data);
+    } catch (err) {
+        res.status(404).send(err);
+    }
+});
+
+router.get('/:id/products', async (req, res) => {
+    try {
+        const data = await Manager.getById(req.params.id)
+        res.send(data);
+    } catch (err) {
+        res.status(404).send(err);
+    }
+});
+
+router.post('/', async (req, res) => {
+    let { item, user } = req.body;
+    try {
+        const data = await Manager.addProduct(item, user)
+        res.send(data);
+    } catch (err) {
+        res.status(404).send(err);
+    }
+});
+
+router.post('/:id/products', async (req, res) => {
+    let { id } = req.params;
+    let { item } = req.body;
+    try {
+        const data = await Manager.addProduct(id, item)
+        res.send(data);
+        } catch (err) {
             res.status(404).send(err);
-        });
-});
-
-router.get('/:id', (req, res) => {
-    if (isNaN(req.params.id)) {
-        res.status(400).send({ error: 'El id debe ser un número' });
-    } else {
-        manager.getCarrito(req.params.id)
-            .then((data) => {
-                res.send(data);
-            })
-            .catch((err) => {
-                res.status(404).send(err);
+            }
             });
-    }
-}); 
-
-router.post('/', (req, res) => {
-    if (req.body.length === 0) {
-        res.status(400).send({ error: 'El carrito no puede estar vacío' });
-    } else {
-    manager.addCarrito(req.body)
-        .then((data) => {
-            res.send(data);
-        })
-        .catch((err) => {
-            res.status(404).send(err);
-        });
+            
+router.delete('/:id', async (req, res) => {
+    let { id } = req.params;
+    try {
+        const data = await Manager.deleteCart(id)
+        res.send(data);
+    } catch (err) {
+        res.status(404).send(err);
     }
 });
 
-router.put('/:id', (req, res) => {
-    if (isNaN(req.params.id)) {
-        res.status(400).send({ error: 'El id debe ser un número' });
-    } else {
-        manager.updateCarrito(req.params.id, req.body)
-            .then((data) => {
-                res.send(data);
-            })
-            .catch((err) => {
-                res.status(404).send(err);
-            });
+router.delete('/:id_cart/products/:id_product', async (req, res) => {
+    let { id_cart, id_product } = req.params;
+    try {
+        const data = await Manager.deleteProduct(id_cart, id_product)
+        res.send(data);
+    } catch (err) {
+        res.status(404).send(err);
     }
 });
-
-router.delete('/:id', (req, res) => {
-        manager.deleteCarrito(req.params.id)
-            .then((data) => {
-                res.send(data);
-            })
-            .catch((err) => {
-                res.status(404).send(err);
-            });
-});
-
-
-
-
 
 module.exports = router;

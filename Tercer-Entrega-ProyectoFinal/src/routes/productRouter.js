@@ -1,63 +1,55 @@
 const express = require('express');
 const router = express.Router();
 const Manager = require('../controllers/productMongoDbManager');
-const ProductModel = require('../models/ProductModel');
-const manager = new Manager();
 
 
-
-
-router.get('/products', (req, res) => {
-    manager.getProducts()
-        .then((productsList) => {
-            return res.status(200).json(productsList);
-        })
-        .catch((err) => {
-            return res.status(500).json({ error: err });
-        }
-        );
-});
-        /* .catch((err) => {
-            return res.status(500).json({ error: err });
-        });
-}); */
-
-router.get('/products/:id', (req, res) => {
-    const { id } = req.params;
-    manager.getProduct(id)
-        .then((product) => {
-            return res.status(200).json(product);
-        })
-        .catch((err) => {
-            return res.status(500).json({ error: err });
-        });
+router.get('/', async (req, res) => {
+    try {
+        const data = await Manager.getProducts()
+        res.status(200).json(data);
+    } catch (err) {
+        res.status(404).send(err);
+    }
 });
 
-
-router.post('/products', (req, res) => {
-    const product = req.body;
-    manager.addProduct(product)
-        .then((result) => {
-            return res.status(200).json(result);
-        })
-        .catch((err) => {
-            return res.status(500).json({ error: err });
-        });
+router.get('/:id', async (req, res) => {
+    let { id } = req.params;
+    try {
+        const data = await Manager.getProduct(id)
+        res.send(data);
+    } catch (err) {
+        res.status(404).send(err);
+    }
 });
 
-router.delete('/products/:id', (req, res) => {
-    manager.deleteProduct(req.params.id)
-        .then((result) => {
-            return res.status(200).json(result);
-        })
-        .catch((err) => {
-            return res.status(500).json({ error: err });
-        });
-
+router.post('/', async (req, res) => {
+    try {
+        const data = await Manager.createProduct(req.body)
+        res.status(200).json(data);
+    } catch (err) {
+        res.status(404).send(err);
+    }
 });
 
+router.delete('/:id', async (req, res) => {
+    let { id } = req.params;
+    try {
+        const data = await Manager.deleteProduct(id)
+        res.send(data);
+    } catch (err) {
+        res.status(404).send(err);
+    }
+});
 
-
-
+router.put('/:id', async (req, res) => {
+    let { id } = req.params;
+    let { item } = req.body;
+    try {
+        const data = await Manager.updateProduct(id, item)
+        res.send(data);
+    } catch (err) {
+        res.status(404).send(err);
+    }
+});
 
 module.exports = router;
