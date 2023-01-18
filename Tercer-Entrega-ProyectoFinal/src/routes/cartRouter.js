@@ -13,9 +13,10 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id/products', async (req, res) => {
+    let { id } = req.params;
     try {
-        const data = await Manager.getById(req.params.id)
-        res.send(data);
+        const data = await Manager.getCartById(id)
+        res.status(200).send(data);
     } catch (err) {
         res.status(404).send(err);
     }

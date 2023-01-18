@@ -4,8 +4,10 @@ class CartController {
 
     async getCart(user) {
         try {
-            let cart = await CartModel.find();
-            cart = cart.filter(carrito => carrito.user.id === user.id);
+            let cart = await CartModel.find(user);
+            if (cart.length === 0) {
+                return null;
+            }
             return cart;
         } catch (error) {
             console.log(error);
@@ -15,20 +17,20 @@ class CartController {
     async getCartById(id_cart) {
         try {
             let cart = await CartModel.findById(id_cart);
+            console.log(cart);
             if (cart.length === 0) {
                 return null;
             }
             return {status : 200, data : cart};
         } catch (error) {
-            console.log(error);
+            console.log({status : 404, data : error});
         }
     }
 
     async addCart(prod, user) {
         try {
-            let subTotal = prod.price * prod.quantity;
-            let resultado = await CartModel.create({user, productos: prod, subTotal });
-            return resultado;
+            let cart = await CartModel.create({user : user, productos : prod});
+            return cart;
         } catch (error) {
             console.log(error);
         }

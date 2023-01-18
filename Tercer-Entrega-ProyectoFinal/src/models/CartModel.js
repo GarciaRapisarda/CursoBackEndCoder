@@ -12,8 +12,8 @@ const cartSchema = new Schema({
         edad: Number,
         avatar: String
     },
-    items: [{
-        item_id: String,
+    productos: [{
+        product_id: String,
         quantity: Number,
         price: Number,
         nombre: String,
