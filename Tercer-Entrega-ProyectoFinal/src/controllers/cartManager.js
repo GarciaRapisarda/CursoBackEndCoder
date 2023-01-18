@@ -1,7 +1,4 @@
-/* const { runDB } = require('../config/configMongoDb');
-const client = runDB(); */
-
-const CartModel = require('../controllers/cartManager');
+const CartModel = require('../models/CartModel');
 
 class CartController {
 
@@ -27,10 +24,10 @@ class CartController {
         }
     }
 
-    async addCart(item, user) {
+    async addCart(prod, user) {
         try {
-            let subTotal = item.price * item.quantity;
-            let resultado = await CartModel.addCart({items: item, user, subTotal});
+            let subTotal = prod.price * prod.quantity;
+            let resultado = await CartModel.create({user, productos: prod, subTotal });
             return resultado;
         } catch (error) {
             console.log(error);
@@ -39,29 +36,29 @@ class CartController {
 
     async deleteCart(id_cart) {
         try {
-            let resultado = await CartModel.deleteCart(id_cart);
+            let resultado = await CartModel.findByIdAndDelete(id_cart);
             return resultado;
         } catch (error) {
             console.log(error);
         }
     }
 
-    async updateCart(id_cart, item) {
+    async updateCart(id_cart, producto) {
         try {
             let resultado = await CartModel.findById(id_cart);
             if (!resultado) {
                 return {status : 404, data : 'No se encontro el carrito'};
             }
-            let items = resultado.item 
-            let itemToUpdate = items.find(item => item.id === item.id);
+            let productos = resultado.productos 
+            let itemToUpdate = productos.find(item => item.product_id === producto.product_id);
             if (!itemToUpdate) {
-                resultado.items.push(item);
-                resultado.subTotal += item.price * item.quantity;
+                resultado.productos.push(producto);
+                resultado.subTotal += (producto.price * producto.quantity);
             } else {
-                itemToUpdate.quantity = item.quantity;
-                resultado.subTotal += item.price * item.quantity;
+                itemToUpdate.quantity = producto.quantity;  
+                resultado.subTotal += (producto.price * producto.quantity);
             }
-            let data = await CartModel.findByIdAndUpdate({_id: id_cart}, {subTotal:resultado.subTotal, items});
+            let data = await CartModel.findByIdAndDelete({_id: id_cart}, {subTotal:resultado.subTotal, productos});
             return {status : 200, data : data};
         } catch (error) {
             console.log(error);
@@ -74,15 +71,21 @@ class CartController {
             if (!cart) {
                 return {status : 404, data : 'No se encontro el carrito'};
             }
-            let items = cart.items;
-            let itemToDelete = items.find(item => item.id === id_item);
+            let items_cart = cart.productos;
+            let itemToDelete = items_cart.find(item => item.product_id === id_item);
             if (!itemToDelete) {
                 return {status : 404, data : 'No se encontro el item'};
             }
-            let index = items.indexOf(itemToDelete);
-            items.splice(index, 1);
-            let data = await CartModel.findByIdAndUpdate({_id: id_cart}, {items});
-            return {status : 200, data : data};
+            let subTotal = cart.subTotal - (itemToDelete.price * itemToDelete.quantity);
+            items_cart = items_cart.filter(item => item.product_id !== id_item);
+
+            if (items_cart.length === 0) {
+                let data = await CartModel.deleteCart(id_cart);
+                return {status : 200, data : data};
+            } else {
+                let data = await CartModel.findByIdAndUpdate({_id: id_cart}, {subTotal, productos: items_cart});
+                return {status : 200, data : data};
+            }
         } catch (error) {
             console.log(error);
         }

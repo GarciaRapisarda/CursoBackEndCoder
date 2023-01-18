@@ -1,12 +1,11 @@
 const express = require('express');
 const Manager = require('../controllers/cartManager');
-const user = require('../models/user');
 const router = express.Router();
 
 
 router.get('/', async (req, res) => {
     try {
-        const data = await Manager.getCart(user)
+        const data = await Manager.getCart(req.user)
         res.send(data);
     } catch (err) {
         res.status(404).send(err);
@@ -22,6 +21,16 @@ router.get('/:id/products', async (req, res) => {
     }
 });
 
+router.post('/', async (req, res) => {
+    let { item, user } = req.body;
+    try {
+        const data = await Manager.addCart(item, user)
+        res.status(200).send(data);
+    } catch (err) {
+        res.status(404).send(err);
+    }
+});
+   
 router.post('/', async (req, res) => {
     let { item, user } = req.body;
     try {

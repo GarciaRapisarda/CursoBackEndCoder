@@ -14,7 +14,7 @@ const cartSchema = new Schema({
     },
     items: [{
         item_id: String,
-        quantity: {Number, min: 1},
+        quantity: Number,
         price: Number,
         nombre: String,
         foto: String,
