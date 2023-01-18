@@ -68,54 +68,49 @@ router.post('/register', async (req, res) => {
         })
 
         const hashPassword = await bcrypt.hash(password, 12);
-    user = await UserModel.create({
-      username,
-      email,
-      password: hashPassword,
-      nombre, 
-      telefono,
-      direccion,
-      edad,
-      avatar
-    })
-    res.redirect('/');
-  } catch (err) { 
-    console.log(err)
-  }
+        user = await UserModel.create({
+            username,
+            email,
+            password: hashPassword,
+            nombre,
+            telefono,
+            direccion,
+            edad,
+            avatar
+        })
+        res.redirect('/');
+    } catch (err) {
+        console.log(err)
+    }
 })
 
-        router.post('/login', (req, res, next) => {
-            passport.authenticate('local', (err, user, info) => {
-                if (err) { return next(err); }
-                if (!user) { return res.redirect('/login?error=true'); }
-                req.logIn(user, function (err) {
-                    if (err) { return next(err); }
-                    return res.redirect('/').json({ user: user });
-                });
-            })(req, res, next);
-        });
-
-        router.get('/test', (req, res) => {
-            const msgPruebaSMS = {
-                to: process.env.TEST_PHONE_NUMBER,
-                from: process.env.TWILIO_PHONE_NUMBER,
-                body: 'Hola, estoy probando el envio de SMS'
-            }
-            client.messages.create(msgPruebaSMS)
-                .then(message => console.log(message.sid))
-                .catch(err => console.log(err))
-            res.send('Mensaje enviado')
-        })
+router.post('/login', passport.authenticate('local-log', {
+    successRedirect: '/',
+    failureRedirect: '/login?error=true'
+}))
 
 
-        router.get('/logout', function (req, res, next) {
-            req.logout(function (err) {
-                if (err) {
-                    return next(err);
-                }
-                res.redirect('/');
-            });
-        });
-   
+router.get('/test', (req, res) => {
+    const msgPruebaSMS = {
+        to: process.env.TEST_PHONE_NUMBER,
+        from: process.env.TWILIO_PHONE_NUMBER,
+        body: 'Hola, estoy probando el envio de SMS'
+    }
+    client.messages.create(msgPruebaSMS)
+        .then(message => console.log(message.sid))
+        .catch(err => console.log(err))
+    res.send('Mensaje enviado')
+})
+
+
+router.get('/logout', function (req, res, next) {
+    req.logout(function (err) {
+        if (err) {
+            return next(err);
+        }
+        res.redirect('/');
+    });
+});
+
 
 module.exports = router;
