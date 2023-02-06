@@ -1,6 +1,7 @@
 import express from 'express';
 import connectMongoDb from './src/config/connectMongoDb.js';
 import userRouter from './src/routes/userRouter.js';
+import productRouter from './src/routes/productRouter.js';
 
 const app = express();
 const server = app.listen(8080, () => {
@@ -15,4 +16,5 @@ connectMongoDb();
 
 app.use(express.json());
 app.use('/users', userRouter);
+app.use('/productos', productRouter);
 
