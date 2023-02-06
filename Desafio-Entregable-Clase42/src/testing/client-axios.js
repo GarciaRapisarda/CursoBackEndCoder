@@ -70,6 +70,12 @@ async function deleteProducts() {
     }
 }
 
+export default {
+    getProducts,
+    postProducts,
+    putProducts,
+    deleteProducts
+}
 
 //getProducts();
 //postProducts();
