@@ -33,12 +33,15 @@ router.post('/', async (req, res) => {
 });
    
 router.post('/', async (req, res) => {
-    let { item, user } = req.body;
+    let { producto, user } = req.body;
     try {
-        const data = await Manager.addProduct(item, user)
-        res.send(data);
+        const data = await Manager.updateCart(producto, user)
+        res.status(200).send(data);
     } catch (err) {
-        res.status(404).send(err);
+        res
+        .status(404)
+        .send
+        (err);
     }
 });
 
