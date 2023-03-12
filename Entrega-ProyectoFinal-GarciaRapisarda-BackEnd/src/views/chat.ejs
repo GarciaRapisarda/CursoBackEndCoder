@@ -1,0 +1,77 @@
+<html>
+    <head>
+        <title>Chat Center</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </head>
+    <body class="container">
+          <script src="../config/chatForm.js"></script>
+          <script>$(document).ready(function() {
+            initializeChat();
+          });</script> 
+          
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/register">Register</a></li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/login">Log In</a></li>
+                    <li><a href="/logout">Log Out</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Chat Center - Admin</h2>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">New Message</div>
+                <div class="panel-body">
+                    <form id="message-form">
+                        <div class="form-group">
+                            <label for="sender-email">Sender Email:</label>
+                            <input type="email" class="form-control" id="sender-email" placeholder="Enter sender email">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-body">Message Body:</label>
+                            <textarea class="form-control" id="message-body" rows="5" placeholder="Enter message body"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Message History</h3>
+            <table class="table table-striped">
+                <tbody>
+                    <% chatData.forEach(function(chat) { %>
+                    <tr>
+                      <th><h2><%= chat.email %></h2></th>
+                      <th><p><%= chat.message %></p></th>
+                      <th><p><%= chat.date %></p></th>
+                    </tr>
+                    <% }); %>
+                  </tbody>
+            </table>
+        </div>
+    </div>
+    
+</body>
+</html>
