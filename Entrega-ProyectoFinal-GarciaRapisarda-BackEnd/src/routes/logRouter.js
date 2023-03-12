@@ -23,6 +23,7 @@ router.get('/', estaLogueado, (req, res) => {
     res.render('dashboard', response);
 })
 
+
 router.get('/register', estaDeslogueado, (req, res) => {
 
     const response = {
