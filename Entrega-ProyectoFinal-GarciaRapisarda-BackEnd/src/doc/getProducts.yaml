@@ -1,0 +1,57 @@
+servers:
+  - url: http://localhost:3000
+paths:
+  /products:  
+    get:
+      summary: Obtiene una lista de productos
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        nombre:
+          type: string
+          description: El nombre del producto
+        descripcion:
+          type: string
+          description: Una breve descripcion del producto
+        codigo:
+          type: string
+          description: Código del producto
+        foto:
+          type: string
+          description: Path de la imágen
+        precio:
+          type: integer
+          description: El precio del producto
+        stock:
+         type: integer
+         description: La cantidad de productos que hay en stock
+        createdAt:
+         type: string
+         description: Fecha de creación del producto
+        updatedAt:
+         type: string
+         description: Fecha de modificación del producto
+      required:
+        - title
+        - description
+        - price
+      example:
+        nombre: Yerba
+        descripcion: 1kg
+        codigo: 1500
+        foto: yerba.jpg
+        precio: 1000
+        stock: 2500
+        createdAt: 2023-03-12T14:31:17.172Z
+        updatedAt: 2023-03-12T14:31:17.172Z

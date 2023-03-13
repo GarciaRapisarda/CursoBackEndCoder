@@ -20,6 +20,9 @@ const http = require('http');
 const server = http.Server(app);
 const io = new Server(server)
 const { setupSocket } = require('./src/config/socketIo');
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./src/config/swagger");
+
 
 
 
@@ -64,6 +67,10 @@ app.use('/chat', chatRouter)
 app.use('/info', infoRouter)
 
 app.use('/api/random', randomRouter)
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+app.use("/api", require("./src/routes/productRouter"));
 
 configMongoDb();
 setupSocket(server);
