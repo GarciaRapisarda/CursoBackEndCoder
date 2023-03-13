@@ -13,9 +13,9 @@ pm2 monit
 ---  
 # MODOS DE EJECUCION DEL SERVIDOR
 
-nodemon app.js (Modo Fork)  
+npm run dev-fork (ejecutar en modo Fork)
   
-nodemon app.js --mode CLUSTER (Modo Cluster)  
+npm run dev (Modo Cluster)  
   
  --- 
 # RUTAS:    
@@ -24,7 +24,7 @@ http://localhost:8080/info
   
 http://localhost:8080/api/random?cant=2545574  (ingresar número aleatoreo despues de "cant=" de lo contrario por defecto será 100.000.000 )    
   
-http://localhost:8080/test (usé esta ruta para probar la configuración y el envío de mensajes de texto con twilio)
+http://localhost:8080/ (Ruta raiz del proyecto)
  
  --- 
 # ARCHIVOS .ENV 

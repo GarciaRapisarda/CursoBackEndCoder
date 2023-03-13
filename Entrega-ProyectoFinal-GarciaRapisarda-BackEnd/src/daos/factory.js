@@ -1,28 +1,3 @@
-/* const config = require("../config/config.js");
-
-const ProductDaoMongoDb = require('./productDaoMongoDb.js');
-const chatDaoMongoDb = require('./chatDaoMongoDb.js');
-
-module.exports = {
-    getPersistence: () => {
-        return new Promise((resolve, reject) => {
-            switch (config.app.persistencia) {
-                case 'fs':
-                    resolve(new UserDaoFileSys());
-                    break;
-                case 'mongo':
-                    resolve(new ProductDaoMongoDb());
-                    break;
-                case 'array':
-                    resolve(new UserDaoArrays());
-                    break;
-                default:
-                    reject(new Error("Persistencia no válida"));
-            }
-        });
-    }
-};  */
-
 const config = require("../config/config.js");
 const ProductDaoMongoDb = require('./productDaoMongoDb.js');
 const ChatDaoMongoDb = require('./chatDaoMongoDb.js');
@@ -33,7 +8,11 @@ module.exports = {
         return new Promise((resolve, reject) => {
             switch (config.app.persistencia) {
                 case 'fs':
-                    resolve(new UserDaoFileSys());
+                    resolve({
+                        productDaoFs: new ProductDaoFs(),
+                        chatDaoFs: new ChatDaoFs(),
+                        cartDaoFs: new CartDaoFs(),
+                    });
                     break;
                 case 'mongo':
                     resolve({
@@ -43,7 +22,11 @@ module.exports = {
                     });
                     break;
                 case 'array':
-                    resolve(new UserDaoArrays());
+                    resolve({
+                        productDaoArray: new ProductDaoArray(),
+                        chatDaoArray: new ChatDaoArray(),
+                        cartDaoArray: new CartDaoArray(),
+                    });
                     break;
                 default:
                     reject(new Error("Persistencia no válida"));
