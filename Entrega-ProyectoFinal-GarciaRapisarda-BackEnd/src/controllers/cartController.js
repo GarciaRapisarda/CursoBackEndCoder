@@ -20,15 +20,16 @@ const createCart = async (req, res) => {
 }
   
 const addProductToCart = async (req, res) => {
-    const cart = await cartService.getById(req.params.id);  
-    if (!cart) {
-      return res.status(404).json({ error: "El carrito no existe" });
-    } 
-    const product = req.body;
-    cart.productos.push(product);
-      const updatedCart = await cartService.updateById(req.params.id, { productos: cart.productos });    
-    res.json(updatedCart);
-  };
+  const cart = await cartService.getById(req.params.id);  
+  if (!cart) {
+    return res.status(404).json({ error: "El carrito no existe" });
+  } 
+  const product = req.body;
+  cart.productos.push(product);
+  await cartService.updateById(req.params.id, { productos: cart.productos });    
+  const updatedCart = await cartService.getById(req.params.id);
+  res.json(updatedCart);
+};
 
   const findByIdAndUpdate = async (req, res) => {
     const cartId = req.params.id;

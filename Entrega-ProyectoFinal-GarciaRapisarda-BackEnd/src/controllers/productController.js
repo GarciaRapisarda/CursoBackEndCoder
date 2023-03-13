@@ -8,8 +8,11 @@ const getAll = async (req, res) => {
 
 const getById = async (req, res) => {
     const product = await productService.getById(req.params.id);
-    res.json(product);
-}
+    if (!product) {
+      return res.status(404).json({ message: "Producto no enconrado" });
+    }
+    return res.json(product);
+  };
 
 const create = async (req, res) => {
     const product = await productService.create(req.body);
@@ -18,11 +21,17 @@ const create = async (req, res) => {
 
 const deleteById = async (req, res) => {
     const product = await productService.deleteById(req.params.id);
-    res.json(product);
+    if (!product) {
+        return res.status(404).json({ message: "Producto no encontrado" });
+    }
+    return res.status(200).json({ message: `Producto con el ${product.id} borrado de manera correcta` });
 }
 
 const updateById = async (req, res) => {
     const product = await productService.updateById(req.params.id, req.body);
+    if (!product) {
+        return res.status(404).json({ message: "Producto no encontrado" });
+    }
     res.json(product);
 }
 
