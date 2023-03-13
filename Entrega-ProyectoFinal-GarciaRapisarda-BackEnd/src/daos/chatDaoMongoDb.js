@@ -9,6 +9,10 @@ class ChatDaoMongoDb {
     return await Chat.find();
   }
 
+    async getById(id) {
+        return await Chat.findById(id);
+    }
+    
   async create(chat) {
     return await Chat.create(chat);
   }

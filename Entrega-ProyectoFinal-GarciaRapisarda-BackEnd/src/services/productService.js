@@ -10,6 +10,10 @@ const ProductDaoMongoDb = require('../daos/productDaoMongoDb');
         return await this.productDaoMongoDb.getAll();
     }
 
+    async getById(id) {
+        return await this.productDaoMongoDb.getById(id);
+    }
+
     async create(product) {
         return await this.productDaoMongoDb.create(product);
     }

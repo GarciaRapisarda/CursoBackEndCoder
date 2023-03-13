@@ -84,8 +84,10 @@ const cartController = require('../controllers/cartController');
 const router = express.Router();
 
 router.get('/', cartController.getAll);
-router.post('/', cartController.create);
+router.get('/:id', cartController.getById);
+router.post('/', cartController.createCart);
+router.post('/:id/products', cartController.addProductToCart);
 router.delete('/:id', cartController.deleteById);
-router.put('/:id', cartController.updateById);
+router.put('/:id', cartController.findByIdAndUpdate);
 
 module.exports = router;

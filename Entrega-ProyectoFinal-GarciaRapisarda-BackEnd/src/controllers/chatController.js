@@ -18,6 +18,11 @@ const getAll = async (req, res) => {
     res.json(chat);
 }
 
+const getById = async (req, res) => {
+    const chat = await chatService.getById(req.params.id);
+    res.json(chat);
+}
+
 const create = async (req, res) => {
     const chat = await chatService.create(req.body);
     res.json(chat);
@@ -35,6 +40,7 @@ const updateById = async (req, res) => {
 
 module.exports = {
     getAll,
+    getById,
     create,
     deleteById,
     updateById,

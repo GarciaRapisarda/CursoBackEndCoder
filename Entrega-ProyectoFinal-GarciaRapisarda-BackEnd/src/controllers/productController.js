@@ -6,6 +6,11 @@ const getAll = async (req, res) => {
     res.json(products);
 }
 
+const getById = async (req, res) => {
+    const product = await productService.getById(req.params.id);
+    res.json(product);
+}
+
 const create = async (req, res) => {
     const product = await productService.create(req.body);
     res.json(product);
@@ -23,6 +28,7 @@ const updateById = async (req, res) => {
 
 module.exports = {
     getAll,
+    getById,
     create,
     deleteById,
     updateById
