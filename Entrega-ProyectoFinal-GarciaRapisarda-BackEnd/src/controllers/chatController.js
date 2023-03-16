@@ -12,9 +12,9 @@ class ChatController {
   }
 
   async getUserMensajes(req, res) {
-    let { userId } = req.params;
+    let { id } = req.params;
     try {
-      let result = await ChatModel.find({ sender: userId });
+      let result = await ChatModel.find({ id });
       return res.status(200).send({ status: "OK", result });
     } catch (error) {
       return res.status(400).send({ status: "ERROR", result: error.message });

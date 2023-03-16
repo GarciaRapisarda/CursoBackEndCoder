@@ -4,6 +4,6 @@ const chatController = require('../controllers/chatController');
 
 router.get('/users', chatController.getListaUsuarios)
 
-router.get('/mensajes/:userId',  chatController.getUserMensajes);
+router.get('/mensajes/:id',  chatController.getUserMensajes);
 
 module.exports = router;
