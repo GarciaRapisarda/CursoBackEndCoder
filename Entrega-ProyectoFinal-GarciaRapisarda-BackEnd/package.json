@@ -1,7 +1,7 @@
 {
-  "name": "server-nginx",
+  "name": "entrega-proyecto-final-garcia-rapisarda-gonzalo",
   "version": "1.0.0",
-  "description": "Desafío sesiones-nginx",
+  "description": "API REST para el proyecto final - Curso Back End - Coderhouse",
   "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",

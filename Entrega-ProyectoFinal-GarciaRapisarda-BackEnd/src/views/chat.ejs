@@ -2,15 +2,8 @@
     <head>
         <title>Chat Center</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <script src="/socket.io/socket.io.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     </head>
     <body class="container">
-          <script src="../config/chatForm.js"></script>
-          <script>$(document).ready(function() {
-            initializeChat();
-          });</script> 
-          
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -40,7 +33,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">New Message</div>
                 <div class="panel-body">
-                    <form id="message-form">
+                    <form>
                         <div class="form-group">
                             <label for="sender-email">Sender Email:</label>
                             <input type="email" class="form-control" id="sender-email" placeholder="Enter sender email">
@@ -60,15 +53,25 @@
         <div class="col-md-12">
             <h3>Message History</h3>
             <table class="table table-striped">
-                <tbody>
-                    <% chatData.forEach(function(chat) { %>
+                <thead>
                     <tr>
-                      <th><h2><%= chat.email %></h2></th>
-                      <th><p><%= chat.message %></p></th>
-                      <th><p><%= chat.date %></p></th>
+                        <th>Sender Email</th>
+                        <th>Message Body</th>
+                        <th>Date/Time</th>
                     </tr>
-                    <% }); %>
-                  </tbody>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>sender1@example.com</td>
+                        <td>Hello Admin, how are you?</td>
+                        <td>2023-03-10 10:30:00</td>
+                    </tr>
+                    <tr>
+                        <td>sender2@example.com</td>
+                        <td>I have an urgent request.</td>
+                        <td>2023-03-11 09:45:00</td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </div>

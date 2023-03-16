@@ -1,4 +1,4 @@
-/* const express = require('express');
+const express = require('express');
 const Manager = require('../controllers/cartManager');
 const router = express.Router();
 
@@ -75,19 +75,5 @@ router.delete('/:id_cart/products/:id_product', async (req, res) => {
         res.status(404).send(err);
     }
 });
-
-module.exports = router;
- */
-
-const express = require('express');
-const cartController = require('../controllers/cartController');
-const router = express.Router();
-
-router.get('/', cartController.getAll);
-router.get('/:id', cartController.getById);
-router.post('/', cartController.createCart);
-router.post('/:id/products', cartController.addProductToCart);
-router.delete('/:id', cartController.deleteById);
-router.put('/:id', cartController.findByIdAndUpdate);
 
 module.exports = router;

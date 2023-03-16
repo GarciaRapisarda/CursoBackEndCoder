@@ -1,53 +1,55 @@
 const express = require('express');
-const productController = require('../controllers/productController');
 const router = express.Router();
-
-/**
- * @swagger
- * components:
- *  schemas:
- *      Product:
- *          type: object
- *          properties:
- *              title:
- *                  type: string
- *                  description: El nombre del producto
- *              description:
- *                  type: string
- *                  description: Una breve descripcion del producto
- *              price:
- *                  type: integer
- *                  description: Precio en pesos del producto
- *          required:
- *              - title
- *              - description
- *              - price
- *          example:
- *              title: Coca Cola del desierto
- *              description: Excelente bebida refrescante para limpiar los inodoros
- *              price: 14
- */
+const Manager = require('../controllers/productMongoDbManager');
 
 
-/**
- * @swagger
- * /products:
- *  post:
- *      summary: Registra un nuevo producto en el catálogo
- *      tags: [Product]
- *      requestBody:
- *          required: true
- *          content:
- *              application/json:
- *                  schema:
- *                      type: object
- *                      $ref: '#/components/schemas/Product'
- */
+router.get('/', async (req, res) => {
+    try {
+        const data = await Manager.getProducts()
+        res.status(200).json(data);
+    } catch (err) {
+        res.status(404).send(err);
+    }
+});
 
-router.get('/', productController.getAll);
-router.get('/:id', productController.getById);
-router.post('/', productController.create);
-router.delete('/:id', productController.deleteById);
-router.put('/:id', productController.updateById);
+router.get('/:id', async (req, res) => {
+    let { id } = req.params;
+    try {
+        const data = await Manager.getProduct(id)
+        res.send(data);
+    } catch (err) {
+        res.status(404).send(err);
+    }
+});
+
+router.post('/', async (req, res) => {
+    try {
+        const data = await Manager.createProduct(req.body)
+        res.status(200).json(data);
+    } catch (err) {
+        res.status(404).send(err);
+    }
+});
+
+router.delete('/:id', async (req, res) => {
+    let { id } = req.params;
+    try {
+        const data = await Manager.deleteProduct(id)
+        res.send(data);
+    } catch (err) {
+        res.status(404).send(err);
+    }
+});
+
+router.put('/:id', async (req, res) => {
+    let { id } = req.params;
+    let { item } = req.body;
+    try {
+        const data = await Manager.updateProduct(id, item)
+        res.send(data);
+    } catch (err) {
+        res.status(404).send(err);
+    }
+});
 
 module.exports = router;
