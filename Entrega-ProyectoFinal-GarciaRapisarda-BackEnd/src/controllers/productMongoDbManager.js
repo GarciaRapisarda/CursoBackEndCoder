@@ -47,6 +47,14 @@ class ProductController {
             console.log(error);
         }
     }
+    async getProductsByCategory(categoria) {
+        try {
+            let productos = await ProductModel.find({ categoria });
+            return productos;
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 module.exports = new ProductController();

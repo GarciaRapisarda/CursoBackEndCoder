@@ -16,7 +16,7 @@ const app = express();
 const { Server } = require('socket.io');
 const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./src/config/swagger");
-
+const userRouter = require('./src/routes/userRouter')
 const PORT = parseInt(process.argv.slice(2)) || 8080
 
 
@@ -29,6 +29,8 @@ app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
 app.use(express.urlencoded({extended:false}));
+
+app.use(express.static(__dirname + '/public'))
 
 app.use(express.json());
 
@@ -50,6 +52,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', logRouter)
+
+app.use('/users', userRouter)
 
 app.use('/cart', cartRouterMongo)
 
@@ -74,32 +78,12 @@ const servidor = app.listen(PORT, () =>
 const io = new Server(servidor);
 
 
-io.on("connection", (socket) => {
-  console.log("Usuario conectado");
-  Chat.find().then((mensajes) => {
-    io.emit("lista-mensajes", mensajes);
-  });
+let messages = []
+io.on('connection', socket => {
+  console.log('New client connected!')
+  socket.on('message', data => {
+      messages.push(data)
+      io.emit('logs', messages)
+  })
+}) 
 
-  socket.on("message", async (data) => {
-    let newMessage = new Chat({
-      sender: data.userId,
-      receiver: data.admin === "S" ? data.userId : null,
-      mensaje: data.mensaje,
-      email: data.email ? data.email : null,
-    });
-    await newMessage.save();
-    let mensajes = await Chat.find();
-    io.emit("lista-mensajes", mensajes);
-    io.emit("lista-mensajes-admin", mensajes);
-  });
-
-  socket.on("filtro-mensajes", async (userId) => {
-    const mensajes = await Chat.find({ sender: userId });
-    io.emit("lista-mensajes", mensajes);
-  });
-
-  socket.on("todos-mensajes", async () => {
-    const mensajes = await Chat.find();
-    io.emit("lista-mensajes", mensajes);
-  });
-});

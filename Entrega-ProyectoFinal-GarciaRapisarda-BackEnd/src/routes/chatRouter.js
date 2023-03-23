@@ -6,16 +6,19 @@ const {isAdmin} = require('../middlewares/validations')
 
 
 
+router.get('/mensajes',  chatController.getAllMensajes)
+
 router.get('/', estaLogueado, (req,res) => {
     res.render('chat.ejs', { title: 'Chat Page', user: req.user } )
   });
+
   
   router.get('/admin', estaLogueado, isAdmin, (req,res) => {
     res.render('chat-admin.ejs', { title: 'Chat Page', user: req.user } )
   });
   
-  router.get('/users', estaLogueado, isAdmin, chatController.getListaUsuarios)
+  router.get('/users', /* estaLogueado, isAdmin, */ chatController.getListaUsuarios)
   
-  router.get('/mensajes/:userId', estaLogueado, chatController.getUserMensajes);
+  router.get('/mensajes/:userId', /* estaLogueado, */ chatController.getUserMensajes);
 
 module.exports = router;

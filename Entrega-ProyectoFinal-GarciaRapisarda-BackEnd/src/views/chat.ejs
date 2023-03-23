@@ -1,4 +1,4 @@
-<html>
+ <html>
     <head>
         <title>Chat Center</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -6,29 +6,41 @@
     <body class="container">
     <nav class="navbar navbar-default">
         <div class="container-fluid">
-            <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <p class="pb-1 text-lg font-bold hover:cursor-pointer px-2 hover:bg-red-500" id="user">Bienvenido <%= user.username %></p>
                 <ul class="nav navbar-nav">
                     <li><a href="/">Home</a></li>
                     <li><a href="/register">Register</a></li>
+                    <% if (user.isAdmin === 'off') { %>           
+                        <li class="pb-1 text-lg font-bold hover:cursor-pointer px-2 hover:bg-red-500">              
+                          <a href="/chat">Chat</a>
+                        </li>
+                      <% } %>
+                      <% if (user.isAdmin === 'on') { %>
+                        <li class="pb-1 text-lg font-bold hover:cursor-pointer px-2 hover:bg-red-500 flex items-center space-x-2">                
+                          <a href="/admin" class="w-full flex items-center space-x-3">
+                            <p>Admin</p>
+                          </a>
+                        </li>
+                      <% } %>
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/login">Log In</a></li>
                     <li><a href="/logout">Log Out</a></li>
                 </ul>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
+            </div>
+        </div>
     </nav>
 
     <div class="row">
         <div class="col-md-12">
-            <h2>Chat Center - Admin</h2>
+            <h2>Chat Center - Administrador</h2>
             <hr>
         </div>
     </div>
 
-    <div class="row">
+  <!--   <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">New Message</div>
@@ -40,7 +52,7 @@
                         </div>
                         <div class="form-group">
                             <label for="message-body">Message Body:</label>
-                            <textarea class="form-control" id="message-body" rows="5" placeholder="Enter message body"></textarea>
+                            <textarea class="form-control" id="chat-input" rows="5" placeholder="Enter message body"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Send Message</button>
                     </form>
@@ -48,33 +60,41 @@
             </div>
         </div>
     </div>
-
+ -->
     <div class="row">
         <div class="col-md-12">
             <h3>Message History</h3>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Sender Email</th>
-                        <th>Message Body</th>
-                        <th>Date/Time</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>sender1@example.com</td>
-                        <td>Hello Admin, how are you?</td>
-                        <td>2023-03-10 10:30:00</td>
-                    </tr>
-                    <tr>
-                        <td>sender2@example.com</td>
-                        <td>I have an urgent request.</td>
-                        <td>2023-03-11 09:45:00</td>
-                    </tr>
-                </tbody>
-            </table>
+           <input id="chatbox" type="tex" placeholder="Escribe tu mensaje" />
         </div>
+        <div id="messageLogs"></div>
     </div>
+    <!-- <div class="max-w-[1350px] mx-auto px-4">
+        <div class="w-full py-4 text-center">
+          <p class="text-3xl font-bold uppercase pb-2 text-white">Dejanos tu consulta</p>      
+          <div class="w-full h-[2px] bg-red-200"></div>
+        </div> 
+        <div class="flex justify-center space-x-6 pb-6">
+          <button id="filtrar_msj" class="bg-black text-white py-2 px-4 rounded-full focus:outline-none focus:shadow-outline" onclick="cambiarColor(this)"> Mensajes del usuario </button>
+          <button id="ver_todos" class="bg-black text-white py-2 px-4 rounded-full focus:outline-none focus:shadow-outline" onclick="cambiarColor(this)">Todos los mensajes</button>
+        </div>
     
+        <div class="h-[calc(100vh-200px)] w-full border-2 flex flex-col overflow-hidden"> -->
+          <!-- Lista de mensajes -->
+         <!--  <div id="lista_mensajes" class="flex-1 px-2 py-3 overflow-y-scroll">
+            <p>sin chat</p>
+          </div> -->
+    
+          <!-- Escribir un mensaje -->
+         <!--  <div class="w-full">
+            <p class="user_id hidden"><%= user._id %></p>
+            <p class="user_admin hidden"><%= user.isAdmin %></p>
+            <input id="msj_usr" class="w-full px-2 py-3 text-md outline-none" type="text" name="mensaje" id="mensaje" placeholder="Escribir (presione Enter para enviar)">
+          </div>
+          <br class="">
+        </div> -->
+      </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/chat.js"></script>
 </body>
-</html>
+</html> 
+
