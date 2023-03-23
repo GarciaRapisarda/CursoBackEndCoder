@@ -1,5 +1,5 @@
 const ChatModel = require("../models/chatModel");
-const UserModel = require("../models/user");
+const UserModel = require("../models/UserModel");
 
 class ChatController {
   async getAllMensajes(req, res) {

@@ -75,6 +75,7 @@ const io = new Server(servidor);
 
 
 io.on("connection", (socket) => {
+  console.log("Usuario conectado");
   Chat.find().then((mensajes) => {
     io.emit("lista-mensajes", mensajes);
   });

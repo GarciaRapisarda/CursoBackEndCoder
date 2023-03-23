@@ -4,18 +4,12 @@ const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const transporter = require('../config/nodeMailer');
 const client = require('../config/twilio')
-const UserModel = require('../models/user');
+const UserModel = require('../models/UserModel');
+const {estaLogueado} = require('../middlewares/validations')
+const {estaDeslogueado} = require('../middlewares/validations')
 
 
-const estaLogueado = (req, res, next) => {
-    if (req.isAuthenticated()) return next()
-    res.redirect('/login')
-}
 
-const estaDeslogueado = (req, res, next) => {
-    if (!req.isAuthenticated()) return next()
-    res.redirect('/')
-}
 
 router.get('/', estaLogueado, (req, res) => {
     console.log(req.user);
