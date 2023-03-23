@@ -60,6 +60,9 @@
                           </div>
                         <input class="form-control" required type="text" name="avatar"/>
                     </div>
+                    <div class="form-group">
+                        <input type="checkbox" name="isAdmin" id="isAdmin">
+                        <label for="isAdmin">¿Administrador?</label>
                     <% if (error) { %>
                       <p class=""><%= msg %> </p>           
                     <% } %>

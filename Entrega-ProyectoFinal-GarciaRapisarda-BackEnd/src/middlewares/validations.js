@@ -9,7 +9,7 @@ const estaDeslogueado = (req, res, next) => {
 }
 
 const isAdmin = (req, res, next) => {
-    if (req.user.isAdmin === "S") return next();
+    if (req.user.isAdmin === "on") return next();
     res.redirect("/");
   };
 
