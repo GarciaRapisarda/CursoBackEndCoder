@@ -16,7 +16,8 @@ const app = express();
 const { Server } = require('socket.io');
 const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./src/config/swagger");
-const userRouter = require('./src/routes/userRouter')
+const userRouter = require('./src/routes/userRouter');
+const ordenRouterMongo = require('./src/routes/ordenRouter');
 const PORT = parseInt(process.argv.slice(2)) || 8080
 
 
@@ -56,6 +57,8 @@ app.use('/', logRouter)
 app.use('/users', userRouter)
 
 app.use('/cart', cartRouterMongo)
+
+app.use('/orders', ordenRouterMongo)
 
 app.use('/products', productRouterMongo)
 
