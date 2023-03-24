@@ -52,7 +52,9 @@ class CartController {
                 return {status : 404, data : 'No se encontro el carrito'};
             }
             let productos = resultado.productos 
+             console.log(productos);         
             let itemToUpdate = productos.find(item => item.product_id === producto.product_id);
+            
             if (!itemToUpdate) {
                 resultado.productos.push(producto);
                 resultado.subTotal += (producto.price * producto.quantity);
@@ -60,7 +62,7 @@ class CartController {
                 itemToUpdate.quantity = producto.quantity;  
                 resultado.subTotal += (producto.price * producto.quantity);
             }
-            let data = await CartModel.findByIdAndDelete({_id: id_cart}, {subTotal:resultado.subTotal, productos});
+            let data = await CartModel.findByIdAndDelete({_id: _id}, {subTotal:resultado.subTotal, productos});
             return {status : 200, data : data};
         } catch (error) {
             console.log(error);

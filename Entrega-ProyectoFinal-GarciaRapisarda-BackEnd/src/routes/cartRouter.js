@@ -32,10 +32,10 @@ router.post('/', async (req, res) => {
     }
 });
    
-router.post('/', async (req, res) => {
-    let { producto, id_cart } = req.body;
+router.post('/:id', async (req, res) => {
+    let { _id, producto} = req.body;
     try {
-        const data = await Manager.updateCart(producto, id_cart)
+        const data = await Manager.updateCart(_id, producto)
         res.status(200).send(data);
     } catch (err) {
         res
