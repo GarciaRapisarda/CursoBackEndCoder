@@ -47,43 +47,6 @@ class OrdenController {
     }
 }
 
-       /*  try {
-            let buy = new OrdenModel({user: req.user._id, cart: cartId});
-            await buy.save();      
-            let newBuy = await OrdenModel.findById(buy._id).populate('cart').populate('user');
-        if (newBuy) {
-            let ordenDeCompra = newBuy.cart.products;
-            let total = newBuy.cart.total;
-            let list = '';
-            for (let i = 0; i < ordenDeCompra.length; i++) {
-                list += `<li>${ordenDeCompra[i].title} - ${ordenDeCompra[i].cantidad} unidades - $${ordenDeCompra[i].price}</li>`
-            }
-            let mailOptions = {
-                from: process.env.TEST_EMAIL,
-                to: newBuy.user.email,
-                subject: 'Orden de compra',
-                html: `<h1>Gracias por tu compra!</h1>
-                <p>Estos son los productos que compraste:</p>
-                <ul>${list}</ul>
-                <p>Total: $${total}</p>
-                <p>En breve nos pondremos en contacto con vos para coordinar la entrega.</p>
-                <p>Saludos!</p>`
-            }
-            transporter.sendMail(mailOptions, (err, info) => {
-                if (err) {
-                    console.log(err)
-                } else {
-                    console.log(info)
-                }
-            })
-            res.status(200).json(newBuy);
-        } else {
-            res.status(400).json({message: 'No se pudo crear la orden de compra'});
-        }
-        } catch (error) {
-            console.log(error)
-        }
-    } */
 
     async getOrdenes(req, res) {
         try {

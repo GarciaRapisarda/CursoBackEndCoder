@@ -27,9 +27,9 @@ class CartController {
         }
     }
 
-    async addCart(prod, user) {
+    async addCart(productos, email, direccionDeEnvio) {
         try {
-            let cart = await CartModel.create({user : user, productos : prod});
+            let cart = await CartModel.create({productos : productos, email: email, direccionDeEnvio: direccionDeEnvio});
             return cart;
         } catch (error) {
             console.log(error);

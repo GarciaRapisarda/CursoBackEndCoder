@@ -23,9 +23,9 @@ router.get('/:id/products', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    let { item, user } = req.body;
+    let { productos, email, direccionDeEnvio } = req.body;
     try {
-        const data = await Manager.addCart(item, user)
+        const data = await Manager.addCart(productos, email, direccionDeEnvio)
         res.status(200).send(data);
     } catch (err) {
         res.status(404).send(err);
@@ -33,9 +33,9 @@ router.post('/', async (req, res) => {
 });
    
 router.post('/', async (req, res) => {
-    let { producto, user } = req.body;
+    let { producto, id_cart } = req.body;
     try {
-        const data = await Manager.updateCart(producto, user)
+        const data = await Manager.updateCart(producto, id_cart)
         res.status(200).send(data);
     } catch (err) {
         res
